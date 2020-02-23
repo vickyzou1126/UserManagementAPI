@@ -8,6 +8,7 @@ Since this project uses localDB, please run it on Windows.
 ## Test on Postman
 ## Get list (Get)
 user list : .../api/user
+<br>
 account list : .../api/account
 
 ## Create a new user (Post)
@@ -32,6 +33,7 @@ url : .../api/user/GetUserById/1
 
 ## Create a new account (Post)
 url : .../api/account/CreateAccountByUserId
+<br>
 header : Content-Type : application/json
 
 body : 
