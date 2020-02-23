@@ -1,6 +1,6 @@
 # README
 
-This is a .NET CORE API project which aims to manage users and accounts. 
+This is a .NET CORE API project which aims to manage users and accounts. Testing project is also included. 
 
 ## Note
 Since this project uses localDB, please run it on Windows. 
