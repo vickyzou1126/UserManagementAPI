@@ -24,22 +24,38 @@ namespace UserManagementAPI.Models
         public bool UserIsValid()
         {
             TrimValues();
-
+            var valid = true;
             if (name.Length == 0)
+            {
                 this.message.addStringIfNotExist("name is empty");
+                valid = false;
+            }
+                
 
             if (email.Length == 0)
+            {
                 this.message.addStringIfNotExist("email is empty");
+                valid = false;
+            }    
             else if (!email.IsValidEmail())
+            {
                 this.message.addStringIfNotExist("email address is not valid");
-
+                valid = false;
+            }
+              
             if (salary <= 0)
+            {
                 this.message.addStringIfNotExist("salary must be greater than 0");
+                
+            }             
 
             if (expense <= 0)
+            {
                 this.message.addStringIfNotExist("expense must be greater than 0");
+                valid = false;
+            }
 
-            return this.message.Count == 0;
+            return valid;
         }
         private void TrimValues()
         {
