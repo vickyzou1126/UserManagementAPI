@@ -2,8 +2,10 @@
 
 This is a .NET CORE API project which aims to manage users and accounts. Testing project is also included. 
 
-## Note
+##Installation
 Since this project uses localDB, please run it on Windows. 
+<br>
+run 'update-database' in Package Manager Console to set up database first.
 
 ## Test on Postman
 ## Get list (Get)
