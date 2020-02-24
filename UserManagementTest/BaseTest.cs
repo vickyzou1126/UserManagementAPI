@@ -20,7 +20,7 @@ namespace UserManagementTest
             optionsBuilder.UseInMemoryDatabase(typeof(T).ToString()+"InMemoryDb");
             _context = new ApplicationContext(optionsBuilder.Options);
             //insert fake data
-            InserFakeData();
+            InsertFakeData();
             _repositoryFactory = new RepositoryFactory(_context);
             _controller = Create();
         }
@@ -52,7 +52,7 @@ namespace UserManagementTest
             _context.Accounts.RemoveRange(_context.Accounts.ToArray());
             _context.SaveChanges();
         }
-        private void InserFakeData()
+        private void InsertFakeData()
         {
             Clear();
             _context.Users.Add(new User() { id = 1,name = "name1", email = "test1@test.com", salary = 10000, expense = 5000 });
