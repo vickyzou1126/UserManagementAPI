@@ -4,8 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using UserManagementAPI.Data;
-using UserManagementAPI.Repositories;
+using UserManagementAPI.DB;
+using UserManagementAPI.Middlewares;
+using UserManagementAPI.DB.Repositories;
+using UserManagementAPI.Services.Interfaces;
+using UserManagementAPI.Services;
 
 namespace UserManagementAPI
 {
@@ -25,6 +28,7 @@ namespace UserManagementAPI
                options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"])
            );
             services.AddScoped<IRepositoryFactory, RepositoryFactory>();
+            services.AddScoped<IUserService, UserService>();
             services.AddMvc().AddJsonOptions(options =>
             {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
@@ -46,6 +50,7 @@ namespace UserManagementAPI
 
             app.UseHttpsRedirection();
             app.UseMvc();
+            app.UseMiddleware<AuthenticationMiddleware>();
         }
     }
 }

@@ -1,8 +1,12 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using UserManagementAPI.Models;
-using UserManagementAPI.Repositories;
-using UserManagementAPI.Services;
+using UserManagementAPI.DB.Models;
+using UserManagementAPI.DB.Repositories;
+using UserManagementAPI.Extensions;
+using MediatR;
+using AutoMapper;
+using UserManagementAPI.Services.Interfaces;
+using UserManagementAPI.Applications.Users;
 
 namespace UserManagementAPI.Controllers
 {
@@ -10,17 +14,25 @@ namespace UserManagementAPI.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IRepositoryFactory repoFactory;
+        private readonly IRepositoryFactory _repoFactory;
+        private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
+        private readonly IUserService _userService;
 
-        public UserController(IRepositoryFactory repoFactory)
+        public UserController(IRepositoryFactory repoFactory, IMediator mediator, IMapper mapper, IUserService userService)
         {
-            this.repoFactory = repoFactory;
+            this._repoFactory = repoFactory;
+            this._mediator = mediator;
+            this._mapper = mapper;
+            this._userService = userService;
         }
 
+
         [HttpGet]
-        public List<User> Get()
+        [Route("/users")]
+        public List<UserResponse> Get()
         {
-            return repoFactory.userRepository.GetAllUsers();
+            return _userService.GetUsers();
         }
 
         [HttpPost]
@@ -29,7 +41,7 @@ namespace UserManagementAPI.Controllers
         {
             user = user ?? new User();
             if (user.UserIsValid())
-                repoFactory.userRepository.CreateNewUserAsync(user);
+                _repoFactory.userRepository.CreateNewUserAsync(user);
             return user;
         }
 
@@ -42,7 +54,7 @@ namespace UserManagementAPI.Controllers
                 user.message.addStringIfNotExist("Please provide an email address");
             else
             {
-                var emailUser = repoFactory.userRepository.GetUserByEmailAddress(email);
+                var emailUser = _repoFactory.userRepository.GetUserByEmailAddress(email);
                 if (emailUser == null)
                     user.message.addStringIfNotExist($"user with email {email.Trim()} not found");
                 else
@@ -55,7 +67,7 @@ namespace UserManagementAPI.Controllers
         [Route("GetUserById/{id}")]
         public User GetUserById(int id)
         {
-            var user = repoFactory.userRepository.GetUserById(id);
+            var user = _repoFactory.userRepository.GetUserById(id);
             if (user == null)
             {
                 user = new User();

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using UserManagementAPI.Models;
-using UserManagementAPI.Repositories;
-using UserManagementAPI.Services;
+using UserManagementAPI.DB.Models;
+using UserManagementAPI.DB.Repositories;
+using UserManagementAPI.Extensions;
 
 namespace UserManagementAPI.Controllers
 {
